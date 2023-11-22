@@ -129,19 +129,6 @@ async fn main() {
     let source = IteratorSource::new(full_data_iterator);
     let mut splits = env.stream(source).split(3).into_iter();
 
-    // let result = env
-    //     .stream(source)
-    //     .group_by_count(|v| v.vehicle_lane.clone())
-    //     .window(ProcessingTimeWindow::sliding(Duration::from_secs(2), Duration::from_secs(1)))
-    //     .max()
-    //     .for_each(|q| println!("{:?}", q));
-
-    // let result = env
-    //     .stream(source)
-    //     .group_by_count(|x| x.vehicle_lane.clone())
-    //     .filter(|x| x.1 > 50)
-    //     .for_each(|dumb| println!("{:?}", dumb));
-
     let max_speed_on_lane_result = max_speed_on_lane(splits.next().unwrap());
     let crowded_lanes_result = crowded_lanes(splits.next().unwrap());
     let steepest_lane_result = max_pos_on_lane(splits.next().unwrap());
